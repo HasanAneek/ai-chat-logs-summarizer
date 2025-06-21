@@ -1,0 +1,8 @@
+User: Hello!
+AI: Hi! How can I assist you today?
+User: Can you explain what machine learning is?
+AI: Certainly! Machine learning is a field of AI that allows systems to learn from data.
+User: What about Python for data analysis?
+AI: Python is excellent for data analysis, with libraries like Pandas and NumPy. Pandas is great for data manipulation.
+User: Tell me more about Pandas.
+AI: Pandas provides data structures like DataFrames, which are perfect for handling tabular data. It simplifies data cleaning and analysis.
