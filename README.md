@@ -5,6 +5,7 @@ A Python tool that analyzes chat logs between users and AI, providing insights a
 ## Features
 - Parses chat logs to separate user and AI messages.
 - Calculates message statistics (total, user, AI).
+- Extracts the top 5 most frequent keywords using NLTK.
 
 ## How to Run
 

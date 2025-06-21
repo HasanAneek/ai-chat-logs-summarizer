@@ -1,8 +1,23 @@
 import os
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from collections import Counter
 from typing import Dict, List, Tuple
 import sys
 
 class ChatSummarizer:
+    def __init__(self):
+        """Initialize the ChatSummarizer with necessary NLTK downloads."""
+        try:
+            # Download required NLTK data
+            nltk.download('punkt', quiet=True)
+            nltk.download('stopwords', quiet=True)
+            self.stop_words = set(stopwords.words('english'))
+        except Exception as e:
+            print(f"Error initializing NLTK: {str(e)}")
+            sys.exit(1)
+
     def parse_chat_log(self, file_path: str) -> Tuple[List[str], List[str]]:
         """
         Parse the chat log file and separate messages by speaker.
@@ -37,11 +52,20 @@ class ChatSummarizer:
             'ai_messages': len(ai_messages)
         }
 
+    def extract_keywords(self, messages: List[str], top_n: int = 5) -> List[Tuple[str, int]]:
+        """
+        Extract the most frequent keywords from messages.
+        """
+        text = ' '.join(messages).lower()
+        tokens = word_tokenize(text)
+        words = [word for word in tokens if word.isalpha() and word not in self.stop_words]
+        word_freq = Counter(words)
+        return word_freq.most_common(top_n)
+
 def main():
     """Main function to demonstrate the ChatSummarizer functionality."""
     summarizer = ChatSummarizer()
     
-    # Hardcoded path for now
     data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
     chat_file = os.path.join(data_dir, 'chat.txt')
     
@@ -49,11 +73,16 @@ def main():
     
     if user_messages or ai_messages:
         stats = summarizer.get_message_statistics(user_messages, ai_messages)
+        keywords = summarizer.extract_keywords(user_messages + ai_messages)
         
         print("\nChat Log Summary:")
         print(f"- Total exchanges: {stats['total_messages']}")
         print(f"- User messages: {stats['user_messages']}")
         print(f"- AI messages: {stats['ai_messages']}\n")
+        
+        print("Most common keywords:")
+        for word, count in keywords:
+            print(f"- {word}: {count} times")
 
 if __name__ == "__main__":
     main()
