@@ -4,7 +4,7 @@ A Python tool that analyzes chat logs between users and AI, providing insights a
 
 ## Example Output
 
-![Chat Summarizer Output](images/screenshot.png)
+![Chat Summarizer Output](images/Screenshot.png)
 
 ## Features
 
